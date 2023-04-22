@@ -33,7 +33,6 @@ const getFilms = (url) => {
 };
 
 const renderList = async (characters) => {
-  // parentHidden.innerHTML = "";
   for (let i = 0; i < characters.length; i++) {
     let character = characters[i];
     let personName = character.name;
@@ -73,27 +72,27 @@ const renderList = async (characters) => {
   }
   let btnFragment = `      
   <div class="btn">
-  <a href="#" class="previous"><img src="image/left.png" /></a>
+  <button class="previous">previous</button>
   <br/>
-  <a href="#" class="next"><img src="image/right.png" /></a>
+  <button class="next">next</button>
   </div>
   `
   parentHidden.insertAdjacentHTML("afterEnd", btnFragment);
   nextBtn.addEventListener("click", nextCharacter);
   previousBtn.addEventListener("click", prevCharacter);
-
+  
   async function nextCharacter() {
     let url = localStorage.getItem('nextPage');
     if (url !== 'null') {
-        await clean();
-        !rendered && getCharacterInfo(url);
+      await clean();
+      !rendered && getCharacterInfo(url);
     }
     let pageNumber = +localStorage.getItem('currentPage')+1;
     let str = pageNumber.toString();
     localStorage.setItem('currentPage', pageNumber<9 ? str : '9');
-
-}
-
+    
+  }
+  
 async function prevCharacter() {
     let url = localStorage.getItem('previousPage');
     if (url !== 'null') {
@@ -107,16 +106,12 @@ async function prevCharacter() {
 }
 
 function clean() {
-  let parentHidden;
   for (let elem of parentHidden) {
       elem.remove();
   }
-  isAsideSectionRendered = false;
+  rendered = false;
 }
-
 };
-
-
 
 function getCharacterInfo() {
   fetch(url)
